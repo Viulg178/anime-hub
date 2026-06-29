@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HiAnime Private Stream</title>
     <style>
-        /* Dark Anime-Themed Styles */
         body {
             background-color: #0b0b0d;
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 20px;
         }
@@ -28,7 +27,6 @@
             margin: 0;
             font-size: 28px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .container {
@@ -36,20 +34,19 @@
             margin: 0 auto;
         }
 
-        /* Video Player Area */
         .player-container {
             background-color: #141417;
             border-radius: 8px;
-            padding: 10px;
+            padding: 15px;
             margin-bottom: 40px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            display: none; /* Hidden until a video card is clicked */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            display: none;
         }
 
         .player-title {
             font-size: 20px;
             color: #ff4500;
-            margin: 10px 0;
+            margin: 10px 0 0 0;
             font-weight: 600;
         }
 
@@ -59,76 +56,70 @@
             background: #000;
         }
 
-        /* Anime Catalog Grid */
         h2 {
             font-size: 22px;
             margin-bottom: 20px;
             border-left: 4px solid #ff4500;
             padding-left: 10px;
+            color: #fff;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 20px;
         }
 
         .anime-card {
             background-color: #141417;
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #232329;
+            transition: transform 0.2s, border-color 0.2s;
+            border: 2px solid #232329;
+            display: block;
         }
 
         .anime-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.3);
             border-color: #ff4500;
         }
 
         .thumbnail {
             width: 100%;
-            height: 280px;
+            height: 180px;
             background-color: #232329;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
-            font-size: 14px;
+            color: #ff4500;
+            font-size: 18px;
+            font-weight: bold;
             position: relative;
         }
 
-        /* Custom play triangle icon on thumbnail */
         .thumbnail::after {
             content: '▶';
-            font-size: 40px;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 35px;
+            color: rgba(255, 255, 255, 0.8);
             position: absolute;
-            transition: color 0.2s;
-        }
-
-        .anime-card:hover .thumbnail::after {
-            color: #ff4500;
         }
 
         .info {
-            padding: 12px;
+            padding: 15px;
+            background-color: #141417;
         }
 
         .info h3 {
             margin: 0 0 5px 0;
             font-size: 16px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: #fff;
         }
 
         .info p {
             margin: 0;
             font-size: 13px;
-            color: #888;
+            color: #ff4500;
         }
     </style>
 </head>
@@ -140,6 +131,7 @@
             <span style="color: #888; font-size: 14px;">Streaming Base v1.0</span>
         </header>
 
+        <!-- Video Player -->
         <div class="player-container" id="videoPlayerBox">
             <video id="mainVideoPlayer" controls autoplay></video>
             <div class="player-title" id="currentPlayerTitle">Now Playing</div>
@@ -148,4 +140,34 @@
         <h2>My Uploaded Anime</h2>
         <div class="grid">
 
-            <div class="anime-card" onclick="playVideo('Apothecary Diaries Season 1 Episode 1', 'https://telegram-file-link-bot-production-3194.up
+            <!-- Apothecary Diaries Card -->
+            <div class="anime-card" onclick="playVideo('Apothecary Diaries Season 1 Episode 1', 'https://telegram-file-link-bot-production-3194.up.railway.app/file/3be18ed85fa1')">
+                <div class="thumbnail">
+                    <span>WATCH NOW</span>
+                </div>
+                <div class="info">
+                    <h3>Apothecary Diaries Season 1 Episode 1</h3>
+                    <p>Subbed | MP4 HD</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function playVideo(title, streamUrl) {
+            const playerBox = document.getElementById('videoPlayerBox');
+            const videoElement = document.getElementById('mainVideoPlayer');
+            const titleElement = document.getElementById('currentPlayerTitle');
+
+            playerBox.style.display = 'block';
+            videoElement.src = streamUrl;
+            titleElement.innerText = "Now Playing: " + title;
+            videoElement.load();
+            videoElement.play();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
