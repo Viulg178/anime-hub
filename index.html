@@ -30,9 +30,11 @@
         }
         .logo { font-weight: 900; font-size: 20px; cursor: pointer; }
         .logo span { color: var(--accent); }
-        .nav-links { display: flex; gap: 20px; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-item { cursor: pointer; font-weight: 600; color: var(--text-muted); }
         .nav-item.active { color: var(--accent); }
+        .settings-btn { font-size: 18px; cursor: pointer; color: var(--text-muted); }
+        .settings-btn:hover { color: var(--accent); }
         
         .video-wrapper { background: #000; width: 100%; max-width: 1060px; margin: 0 auto; display: none; }
         video { width: 100%; aspect-ratio: 16/9; display: block; }
@@ -53,7 +55,6 @@
             cursor: pointer;
         }
         
-        /* Premium Miruro Episode Cards Style Layout */
         .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
         .ep-card {
             background: var(--bg-card);
@@ -103,6 +104,24 @@
             justify-content: space-between;
         }
         .time { color: var(--accent); font-weight: bold; }
+
+        /* Comments Layout UI */
+        .comments-section { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 10px; padding: 20px; margin-top: 30px; }
+        .comment-input-box { display: flex; gap: 10px; margin-bottom: 20px; }
+        .comment-input-box input { flex: 1; background: var(--bg-main); border: 1px solid var(--bg-border); padding: 10px; color: white; border-radius: 6px; outline: none; }
+        .comment-btn { background: var(--accent); color: white; border: none; padding: 0 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .comments-list { display: flex; flex-direction: column; gap: 15px; }
+        .comment-item { display: flex; gap: 12px; font-size: 13px; border-bottom: 1px solid var(--bg-border); padding-bottom: 12px; }
+        .comment-avatar { width: 35px; height: 35px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .comment-content h5 { margin: 0 0 4px 0; color: #fff; }
+        .comment-content p { margin: 0; color: var(--text-muted); }
+
+        /* Settings Modal Layout */
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-overlay.active { display: flex; }
+        .settings-box { background: #111216; border: 1px solid var(--bg-border); border-radius: 12px; width: 500px; padding: 25px; position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 15px; font-size: 20px; cursor: pointer; color: var(--text-muted); }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--bg-border); }
     </style>
 </head>
 <body>
@@ -112,8 +131,8 @@
         <div class="nav-links">
             <div class="nav-item active" id="tab-home" onclick="showPage('home')">Home</div>
             <div class="nav-item" id="tab-library" onclick="showPage('library')">My Anime</div>
+            <div class="settings-btn" onclick="toggleSettings(true)">⚙️</div>
         </div>
-        <div style="font-size: 13px; color: var(--accent); font-weight: bold;">● ONLINE NODE</div>
     </nav>
 
     <div class="video-wrapper" id="playerArea">
@@ -142,6 +161,44 @@
             <div class="episodes-grid" id="episodesGrid"></div>
         </div>
 
+        <!-- SHARED COMMENTS CONTAINER -->
+        <div class="comments-section" id="commentsBox" style="display: none;">
+            <h3>The Anime Community Comments</h3>
+            <div class="comment-input-box">
+                <input type="text" id="commentInput" placeholder="Leave a public comment...">
+                <button class="comment-btn" onclick="addComment()">POST</button>
+            </div>
+            <div class="comments-list" id="commentsList">
+                <div class="comment-item">
+                    <div class="comment-avatar">U</div>
+                    <div class="comment-content">
+                        <h5>AnimeNinja99</h5>
+                        <p>This layout config is flawless. Absolute masterpiece architecture!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SETTINGS PANEL OVERLAY MODAL -->
+    <div class="modal-overlay" id="settingsModal" onclick="if(event.target===this) toggleSettings(false)">
+        <div class="settings-box">
+            <div class="close-modal" onclick="toggleSettings(false)">×</div>
+            <h3>Settings Panel</h3>
+            <div class="setting-row">
+                <div><h4>Theme Custom Accent</h4><p>Choose core visual branding colors</p></div>
+                <select onchange="document.documentElement.style.setProperty('--accent', this.value)">
+                    <option value="#a855f7">Miruro Purple</option>
+                    <option value="#ff4500">HiAnime Orange</option>
+                    <option value="#3b82f6">Cyber Blue</option>
+                </select>
+            </div>
+            <div class="setting-row">
+                <div><h4>Global Comments Visibility</h4><p>Toggle comment stream layout displays</p></div>
+                <input type="checkbox" checked onchange="document.getElementById('commentsBox').style.display = this.checked ? 'block' : 'none'">
+            </div>
+        </div>
     </div>
 
     <script>
@@ -159,7 +216,7 @@
                     opt.innerText = anime;
                     animeDropdown.appendChild(opt);
                 });
-            } catch (e) { console.error("Error accessing library.json profile", e); }
+            } catch (e) { console.error("Error matching file tracks", e); }
             loadAiringSchedule();
         }
 
@@ -168,6 +225,7 @@
             const seasonDropdown = document.getElementById('seasonSelect');
             seasonDropdown.innerHTML = '<option value="">-- Choose Season --</option>';
             document.getElementById('episodesGrid').innerHTML = '';
+            document.getElementById('commentsBox').style.display = 'none';
 
             if (!anime || !libraryData[anime]) {
                 seasonDropdown.disabled = true;
@@ -195,14 +253,12 @@
             const episodes = libraryData[anime][season];
             Object.keys(episodes).forEach(num => {
                 const ep = episodes[num];
-                
-                // Fallback image poster if user leaves photo url blank in library.json
                 const imageSrc = ep.photo || "https://cdn.myanimelist.net/images/anime/1708/138033.jpg";
                 const airDate = ep.airDate || "Active Link Route";
 
                 const card = document.createElement('div');
                 card.className = 'ep-card';
-                card.onclick = () => playStream(ep[audio], `${anime} - S${season} Ep ${num}`);
+                card.onclick = () => playStream(ep[audio]);
                 
                 card.innerHTML = `
                     <div class="ep-thumb-box">
@@ -218,18 +274,32 @@
             });
         }
 
-        function playStream(url, displayTitle) {
+        function playStream(url) {
             if (!url || url.trim() === "") {
-                alert("This option language track link is currently unassigned inside library.json!");
+                alert("This option language track link is empty inside library.json!");
                 return;
             }
             document.getElementById('playerArea').style.display = 'block';
+            document.getElementById('commentsBox').style.display = 'block'; // Shows up automatically when playing video
             const v = document.getElementById('mainPlayer');
             v.src = url;
             v.load();
             v.play();
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
+
+        function addComment() {
+            const val = document.getElementById('commentInput').value;
+            if(!val.trim()) return;
+            const list = document.getElementById('commentsList');
+            const item = document.createElement('div');
+            item.className = 'comment-item';
+            item.innerHTML = `<div class="comment-avatar">U</div><div class="comment-content"><h5>Anonymous Viewer</h5><p>${val}</p></div>`;
+            list.insertBefore(item, list.firstChild);
+            document.getElementById('commentInput').value = '';
+        }
+
+        function toggleSettings(show) { document.getElementById('settingsModal').classList.toggle('active', show); }
 
         async function loadAiringSchedule() {
             const container = document.getElementById('scheduleContainer');
@@ -238,7 +308,6 @@
                 const today = days[new Date().getDay()];
                 const res = await fetch(`https://api.jikan.moe/v4/schedules?filter=${today}`);
                 const data = await res.json();
-                
                 container.innerHTML = '';
                 data.data.slice(0, 6).forEach(item => {
                     let row = document.createElement('div');
@@ -246,7 +315,7 @@
                     row.innerHTML = `<div><strong>${item.title}</strong></div><div class="time">${item.broadcast.time || 'Airing'}</div>`;
                     container.appendChild(row);
                 });
-            } catch(e) { container.innerHTML = '<div class="schedule-row">System online. Complete data routes.</div>'; }
+            } catch(e) { container.innerHTML = '<div class="schedule-row">System online. Complete database configurations.</div>'; }
         }
 
         function showPage(pageId) {
