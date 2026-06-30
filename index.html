@@ -3,171 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HiAnime Private Stream</title>
+    <title>MIRURO.tv - Ultimate Private Stream</title>
     <style>
-        body {
-            background-color: #0b0b0d;
-            color: #ffffff;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
+        :root {
+            --bg-main: #0b0c0f;
+            --bg-card: #13151a;
+            --bg-border: #1f232b;
+            --accent: #a855f7;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
         }
-
-        header {
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #050507;
+            border-bottom: 1px solid var(--bg-border);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo { font-weight: 900; font-size: 20px; cursor: pointer; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { cursor: pointer; font-weight: 600; color: var(--text-muted); }
+        .nav-item.active { color: var(--accent); }
+        .video-wrapper { background: #000; width: 100%; max-width: 1000px; margin: 0 auto; display: none; }
+        video { width: 100%; aspect-ratio: 16/9; display: block; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .selectors { display: flex; gap: 15px; margin-bottom: 20px; }
+        select {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-border);
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; }
+        .ep-card {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-border);
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .ep-card:hover { border-color: var(--accent); }
+        .ep-card h4 { margin: 0 0 5px 0; color: white; }
+        .ep-card p { margin: 0; font-size: 12px; color: var(--text-muted); }
+        .schedule-row {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-border);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #ff4500;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
         }
-
-        h1 {
-            color: #ff4500;
-            margin: 0;
-            font-size: 28px;
-            text-transform: uppercase;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .player-container {
-            background-color: #141417;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-            display: none;
-        }
-
-        .player-title {
-            font-size: 20px;
-            color: #ff4500;
-            margin: 10px 0 0 0;
-            font-weight: 600;
-        }
-
-        video {
-            width: 100%;
-            border-radius: 4px;
-            background: #000;
-        }
-
-        h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            border-left: 4px solid #ff4500;
-            padding-left: 10px;
-            color: #fff;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        .anime-card {
-            background-color: #141417;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
-            border: 2px solid #232329;
-            display: block;
-        }
-
-        .anime-card:hover {
-            transform: translateY(-5px);
-            border-color: #ff4500;
-        }
-
-        .thumbnail {
-            width: 100%;
-            height: 180px;
-            background-color: #232329;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ff4500;
-            font-size: 18px;
-            font-weight: bold;
-            position: relative;
-        }
-
-        .thumbnail::after {
-            content: '▶';
-            font-size: 35px;
-            color: rgba(255, 255, 255, 0.8);
-            position: absolute;
-        }
-
-        .info {
-            padding: 15px;
-            background-color: #141417;
-        }
-
-        .info h3 {
-            margin: 0 0 5px 0;
-            font-size: 16px;
-            color: #fff;
-        }
-
-        .info p {
-            margin: 0;
-            font-size: 13px;
-            color: #ff4500;
-        }
+        .time { color: var(--accent); font-weight: bold; }
     </style>
 </head>
 <body>
 
+    <nav>
+        <div class="logo" onclick="showPage('home')">MIRURO<span>.tv</span></div>
+        <div class="nav-links">
+            <div class="nav-item active" id="tab-home" onclick="showPage('home')">Home</div>
+            <div class="nav-item" id="tab-library" onclick="showPage('library')">My Anime</div>
+        </div>
+        <div style="font-size: 13px; color: var(--accent);">● ONLINE</div>
+    </nav>
+
+    <div class="video-wrapper" id="playerArea">
+        <video id="mainPlayer" controls></video>
+    </div>
+
     <div class="container">
-        <header>
-            <h1>HiAnime <span style="color:#fff;">Private</span></h1>
-            <span style="color: #888; font-size: 14px;">Streaming Base v1.0</span>
-        </header>
-
-        <!-- Video Player -->
-        <div class="player-container" id="videoPlayerBox">
-            <video id="mainVideoPlayer" controls autoplay></video>
-            <div class="player-title" id="currentPlayerTitle">Now Playing</div>
+        
+        <!-- HOME PAGE (SCHEDULE) -->
+        <div class="page active" id="page-home">
+            <h2 style="border-left: 4px solid var(--accent); padding-left: 10px;">Airing Schedule (Today)</h2>
+            <div id="scheduleContainer">Loading streaming logs...</div>
         </div>
 
-        <h2>My Uploaded Anime</h2>
-        <div class="grid">
-
-            <!-- Apothecary Diaries Card -->
-            <div class="anime-card" onclick="playVideo('Apothecary Diaries Season 1 Episode 1', 'https://telegram-file-link-bot-production-3194.up.railway.app/file/3be18ed85fa1')">
-                <div class="thumbnail">
-                    <span>WATCH NOW</span>
-                </div>
-                <div class="info">
-                    <h3>Apothecary Diaries Season 1 Episode 1</h3>
-                    <p>Subbed | MP4 HD</p>
-                </div>
+        <!-- LIBRARY PAGE -->
+        <div class="page" id="page-library">
+            <h2 style="border-left: 4px solid var(--accent); padding-left: 10px; margin-bottom: 20px;">My Streaming Library</h2>
+            <div class="selectors">
+                <select id="animeSelect" onchange="updateSeasonsDropdown()"><option value="">-- Select Anime --</option></select>
+                <select id="seasonSelect" onchange="renderEpisodesGrid()" disabled><option value="">-- Select Season --</option></select>
+                <select id="audioSelect" onchange="renderEpisodesGrid()">
+                    <option value="sub">Subbed (JPN)</option>
+                    <option value="dub">Dubbed (ENG)</option>
+                </select>
             </div>
-
+            <div class="episodes-grid" id="episodesGrid"></div>
         </div>
+
     </div>
 
     <script>
-        function playVideo(title, streamUrl) {
-            const playerBox = document.getElementById('videoPlayerBox');
-            const videoElement = document.getElementById('mainVideoPlayer');
-            const titleElement = document.getElementById('currentPlayerTitle');
+        let libraryData = {};
 
-            playerBox.style.display = 'block';
-            videoElement.src = streamUrl;
-            titleElement.innerText = "Now Playing: " + title;
-            videoElement.load();
-            videoElement.play();
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // 1. Fetch library.json configurations automatically on page load
+        async function loadPortalData() {
+            try {
+                const response = await fetch('library.json');
+                libraryData = await response.json();
+                
+                const animeDropdown = document.getElementById('animeSelect');
+                Object.keys(libraryData).forEach(anime => {
+                    let opt = document.createElement('option');
+                    opt.value = anime;
+                    opt.innerText = anime;
+                    animeDropdown.appendChild(opt);
+                });
+            } catch (e) { console.error("Error connecting to library database file", e); }
+            loadAiringSchedule();
         }
+
+        function updateSeasonsDropdown() {
+            const anime = document.getElementById('animeSelect').value;
+            const seasonDropdown = document.getElementById('seasonSelect');
+            seasonDropdown.innerHTML = '<option value="">-- Select Season --</option>';
+            document.getElementById('episodesGrid').innerHTML = '';
+
+            if (!anime || !libraryData[anime]) {
+                seasonDropdown.disabled = true;
+                return;
+            }
+
+            Object.keys(libraryData[anime]).forEach(season => {
+                let opt = document.createElement('option');
+                opt.value = season;
+                opt.innerText = season;
+                seasonDropdown.appendChild(opt);
+            });
+            seasonDropdown.disabled = false;
+        }
+
+        function renderEpisodesGrid() {
+            const anime = document.getElementById('animeSelect').value;
+            const season = document.getElementById('seasonSelect').value;
+            const audio = document.getElementById('audioSelect').value;
+            const grid = document.getElementById('episodesGrid');
+            grid.innerHTML = '';
+
+            if (!anime || !season) return;
+
+            const episodes = libraryData[anime][season];
+            Object.keys(episodes).forEach(num => {
+                const ep = episodes[num];
+                const card = document.createElement('div');
+                card.className = 'ep-card';
+                card.onclick = () => playStream(ep[audio], `${anime} - S${season} Ep ${num}: ${ep.title}`);
+                
+                card.innerHTML = `
+                    <h4>Episode ${num}</h4>
+                    <p>${ep.title || 'No Title Available'}</p>
+                    <p style="color:var(--accent); font-size:11px; margin-top:5px;">Click to Stream</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function playStream(url, displayTitle) {
+            if (!url) {
+                alert("This episode/language track doesn't have a video link added yet!");
+                return;
+            }
+            document.getElementById('playerArea').style.display = 'block';
+            const v = document.getElementById('mainPlayer');
+            v.src = url;
+            v.load();
+            v.play();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        async function loadAiringSchedule() {
+            const container = document.getElementById('scheduleContainer');
+            try {
+                const days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+                const today = days[new Date().getDay()];
+                const res = await fetch(`https://api.jikan.moe/v4/schedules?filter=${today}`);
+                const data = await res.json();
+                
+                container.innerHTML = '';
+                data.data.slice(0, 6).forEach(item => {
+                    let row = document.createElement('div');
+                    row.className = 'schedule-row';
+                    row.innerHTML = `<div><strong>${item.title}</strong></div><div class="time">${item.broadcast.time || 'Airing Now'}</div>`;
+                    container.appendChild(row);
+                });
+            } catch(e) { container.innerHTML = '<div class="schedule-row">Schedule engine ready. Connect your library tracks.</div>'; }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+            document.getElementById(`tab-${pageId}`).classList.add('active');
+        }
+
+        window.onload = loadPortalData;
     </script>
 </body>
 </html>
