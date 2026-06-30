@@ -151,7 +151,7 @@
                         </div>
                     </div>
                     <div class="info-card-block">
-                        <img class="info-poster" id="metaPoster" src="" referrerpolicy="no-referrer" onerror="this.src='https://images.justwatch.com/poster/308930987/s332/season-1.webp'" alt="poster">
+                        <img class="info-poster" id="metaPoster" src="" referrerpolicy="no-referrer" alt="poster">
                         <div class="info-details">
                             <h3 id="metaTitle" style="margin:0; font-size:18px; color:white;">Anime Title</h3>
                             <div class="info-tags">
@@ -219,9 +219,7 @@
                 card.className = 'release-card';
                 card.onclick = () => launchTheaterMode(anime);
                 card.innerHTML = `
-                    <div class="poster-box">
-                        <img src="${data.poster}" referrerpolicy="no-referrer" onerror="this.src='https://placehold.co/165x220/13151a/e2e8f0?text=No+Poster'" alt="poster">
-                    </div>
+                    <div class="poster-box"><img src="${data.poster}" referrerpolicy="no-referrer" alt="poster"></div>
                     <div class="release-info">
                         <h4>${anime}</h4>
                         <div class="release-meta"><span>${data.type || 'TV'}</span><span>${data.year || '2023'}</span></div>
@@ -270,7 +268,7 @@
                 card.id = `sidebar-ep-${num}`;
                 card.onclick = () => playVideoSource(num);
                 card.innerHTML = `
-                    <img class="v-ep-thumb" src="${ep.photo || libraryData[activeAnime].poster}" referrerpolicy="no-referrer" onerror="this.src='https://placehold.co/80x48/1f232b/94a3b8?text=EP'" alt="thumb">
+                    <img class="v-ep-thumb" src="${ep.photo || libraryData[activeAnime].poster}" referrerpolicy="no-referrer" alt="thumb">
                     <div class="v-ep-info">
                         <h5>EP ${num}: ${ep.title || 'Episode ' + num}</h5>
                         <p>${ep.airDate || 'Aired Link'}</p>
