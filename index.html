@@ -20,6 +20,8 @@
             margin: 0;
             padding: 0;
         }
+        
+        /* Top Navigation Header Bar styling */
         nav {
             background-color: #050507;
             border-bottom: 1px solid var(--bg-border);
@@ -35,7 +37,6 @@
         .nav-item { cursor: pointer; font-weight: 600; color: var(--text-muted); }
         .nav-item.active { color: var(--accent); }
         
-        .search-container { position: relative; }
         .search-bar {
             background: #13151a;
             border: 1px solid var(--bg-border);
@@ -48,17 +49,16 @@
         }
         .search-bar:focus { border-color: var(--accent); }
 
-        .video-wrapper { background: #000; width: 100%; max-width: 1100px; margin: 0 auto; display: none; }
-        video { width: 100%; aspect-ratio: 16/9; display: block; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
         .page { display: none; }
         .page.active { display: block; }
 
+        /* Homepage Spotlight Banner */
         .hero-banner {
             background: linear-gradient(180deg, rgba(19,21,26,0.4) 0%, rgba(11,12,15,1) 100%), #13151a;
             background-size: cover;
             background-position: center;
-            height: 300px;
+            height: 320px;
             border-radius: 12px;
             display: flex;
             flex-direction: column;
@@ -67,15 +67,15 @@
             margin-bottom: 30px;
             border: 1px solid var(--bg-border);
         }
-        .hero-title { font-size: 26px; font-weight: 800; margin: 0 0 5px 0; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.9); }
-        .hero-desc { font-size: 13px; color: var(--text-muted); max-width: 600px; line-height: 1.5; margin-bottom: 15px; text-shadow: 0 1px 4px rgba(0,0,0,0.9); }
-        .btn-purple { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-        .btn-purple:hover { background: #9333ea; }
+        .hero-title { font-size: 28px; font-weight: 800; margin: 0 0 5px 0; color: white; }
+        .hero-desc { font-size: 13px; color: var(--text-muted); max-width: 650px; line-height: 1.5; margin-bottom: 15px; }
+        .btn-purple { background: var(--accent); color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: bold; cursor: pointer; }
 
         .section-header { font-size: 18px; font-weight: bold; margin: 25px 0 15px 0; border-bottom: 1px solid var(--bg-border); padding-bottom: 8px; }
 
+        /* Home Content Grids Grid Layouts */
         .releases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 15px; }
-        .release-card { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
+        .release-card { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
         .release-card:hover { transform: translateY(-4px); border-color: var(--accent); }
         .poster-box { height: 220px; background: #1f232b; }
         .poster-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -83,26 +83,52 @@
         .release-info h4 { margin: 0 0 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; }
         .release-meta { font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between; }
 
-        .calendar-row { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .day-tab { background: var(--bg-card); border: 1px solid var(--bg-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-muted); white-space: nowrap; }
-        .day-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
         .schedule-list { display: flex; flex-direction: column; gap: 8px; }
         .schedule-item { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 6px; padding: 12px 20px; display: flex; justify-content: space-between; font-size: 14px; }
         .schedule-time { color: var(--accent); font-weight: bold; font-family: monospace; }
 
-        .selectors { display: flex; gap: 15px; margin-bottom: 25px; }
-        select { background: var(--bg-card); border: 1px solid var(--bg-border); color: white; padding: 10px 15px; border-radius: 6px; cursor: pointer; outline: none; }
-        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .ep-card { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 8px; padding: 8px; display: flex; gap: 12px; cursor: pointer; border: 1px solid transparent; }
-        .ep-card:hover { border-color: var(--accent); background: #1a1d24; }
-        .ep-thumb-box { width: 110px; height: 65px; background: #1f232b; border-radius: 4px; overflow: hidden; flex-shrink: 0; position: relative; }
-        .ep-thumb-box img { width: 100%; height: 100%; object-fit: cover; }
-        .ep-badge { position: absolute; bottom: 4px; left: 4px; background: rgba(0,0,0,0.8); padding: 2px 5px; border-radius: 3px; font-size: 9px; color: white; font-weight: bold; }
+        /* ================= Premium split-screen View layout (Photos 2 & 3) ================= */
+        .theater-layout { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+        .theater-left { flex: 1; min-width: 60%; }
+        .theater-right { width: 360px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
+        @media (max-width: 1000px) { .theater-right { width: 100%; } }
 
-        .comments-section { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 10px; padding: 20px; margin-top: 30px; }
+        /* Video Display Elements Frame Container Layout */
+        .video-box { background: #000; width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--bg-border); }
+        video { width: 100%; aspect-ratio: 16/9; display: block; }
+        
+        .stream-meta-bar { padding: 15px 0; border-bottom: 1px solid var(--bg-border); }
+        .stream-title { font-size: 20px; font-weight: bold; margin: 0 0 8px 0; color: white; }
+        
+        .selectors-row { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+        select { background: var(--bg-card); border: 1px solid var(--bg-border); color: white; padding: 8px 12px; border-radius: 6px; cursor: pointer; outline: none; font-size: 13px; }
+
+        /* Right Side Navigation Sidebar Lists styling */
+        .sidebar-panel { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 8px; padding: 15px; }
+        .panel-title { font-size: 14px; font-weight: bold; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; border-bottom: 1px solid var(--bg-border); padding-bottom: 6px; }
+        
+        .vertical-episodes-list { max-height: 420px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .v-ep-card { background: var(--bg-main); border: 1px solid var(--bg-border); border-radius: 6px; padding: 8px; display: flex; gap: 10px; cursor: pointer; transition: all 0.2s; }
+        .v-ep-card:hover, .v-ep-card.active { border-color: var(--accent); background: #151821; }
+        .v-ep-thumb { width: 80px; height: 48px; border-radius: 4px; object-fit: cover; background: #1f232b; flex-shrink: 0; }
+        .v-ep-info { overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+        .v-ep-info h5 { margin: 0 0 2px 0; font-size: 12px; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .v-ep-info p { margin: 0; font-size: 10px; color: var(--text-muted); }
+
+        .seasons-row-list { display: flex; gap: 8px; flex-wrap: wrap; }
+        .season-btn { background: var(--bg-main); border: 1px solid var(--bg-border); color: var(--text-muted); padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .season-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        /* Info Block components matching photo 3 */
+        .info-card-block { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 8px; padding: 20px; margin-top: 20px; display: flex; gap: 20px; }
+        .info-poster { width: 140px; height: 200px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--bg-border); }
+        .info-details { font-size: 13px; line-height: 1.5; }
+        .info-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+        .tag-pill { background: #242833; color: #e2e8f0; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+
+        .comments-section { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 8px; padding: 20px; margin-top: 25px; }
         .comment-input-box { display: flex; gap: 10px; margin-bottom: 20px; }
         .comment-input-box input { flex: 1; background: var(--bg-main); border: 1px solid var(--bg-border); padding: 10px; color: white; border-radius: 6px; outline: none; }
-        .comment-btn { background: var(--accent); color: white; border: none; padding: 0 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
         .comment-item { display: flex; gap: 12px; font-size: 13px; border-bottom: 1px solid var(--bg-border); padding-bottom: 12px; margin-bottom: 12px; }
         .comment-avatar { width: 35px; height: 35px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
     </style>
@@ -111,25 +137,19 @@
 
     <nav>
         <div class="logo" onclick="showPage('home')">MIRURO<span>.tv</span></div>
-        <div class="search-container">
-            <input type="text" class="search-bar" placeholder="Search Anime library..." onkeyup="searchLibrary(event)">
-        </div>
+        <input type="text" class="search-bar" placeholder="Search Anime library..." onkeyup="searchLibrary(event)">
         <div class="nav-links">
             <div class="nav-item active" id="tab-home" onclick="showPage('home')">Home</div>
-            <div class="nav-item" id="tab-library" onclick="showPage('library')">My Anime</div>
+            <div class="nav-item" id="tab-watch" onclick="showPage('watch')">Watch Panel</div>
         </div>
     </nav>
-
-    <div class="video-wrapper" id="playerArea">
-        <video id="mainPlayer" controls></video>
-    </div>
 
     <div class="container">
         
         <div class="page active" id="page-home">
             <div class="hero-banner" id="heroElement">
-                <h1 class="hero-title" id="heroTitle">The Apothecary Diaries</h1>
-                <p class="hero-desc" id="heroDesc">Loading private tracking node description details...</p>
+                <h1 class="hero-title" id="heroTitle">Loading...</h1>
+                <p class="hero-desc" id="heroDesc">Loading private tracking node details...</p>
                 <div><button class="btn-purple" onclick="quickWatchHero()">WATCH NOW</button></div>
             </div>
 
@@ -137,68 +157,94 @@
             <div class="releases-grid" id="recentGrid"></div>
 
             <div class="section-header">Estimated Airing Schedule</div>
-            <div class="calendar-row" id="calendarTabs"></div>
             <div class="schedule-list" id="scheduleList"></div>
         </div>
 
-        <div class="page" id="page-library">
-            <div class="section-header">My Private Streaming Hub</div>
-            <div class="selectors">
-                <select id="animeSelect" onchange="updateSeasons()"><option value="">-- Choose Anime --</option></select>
-                <select id="seasonSelect" onchange="renderEpisodes()" disabled><option value="">-- Choose Season --</option></select>
-                <select id="audioSelect" onchange="renderEpisodes()">
-                    <option value="sub">Audio Track: Subbed (JPN)</option>
-                    <option value="dub">Audio Track: Dubbed (ENG)</option>
-                </select>
-            </div>
-            <div class="episodes-grid" id="episodesGrid"></div>
-        </div>
+        <div class="page" id="page-watch">
+            <div class="theater-layout">
+                
+                <div class="theater-left">
+                    <div class="video-box">
+                        <video id="mainPlayer" controls></video>
+                    </div>
+                    
+                    <div class="stream-meta-bar">
+                        <h2 class="stream-title" id="playerStreamTitle">Select an Episode</h2>
+                        <p id="playerEpisodeDesc" style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0;"></p>
+                        
+                        <div class="selectors-row">
+                            <select id="audioSelect" onchange="syncAudioTrackChange()">
+                                <option value="sub">Audio: Subbed (JPN)</option>
+                                <option value="dub">Audio: Dubbed (ENG)</option>
+                            </select>
+                        </div>
+                    </div>
 
-        <div class="comments-section" id="commentsBox" style="display: none; margin-top: 40px;">
-            <h3>The Anime Community Comments</h3>
-            <div class="comment-input-box">
-                <input type="text" id="commentInput" placeholder="Leave a comment on this file node...">
-                <button class="comment-btn" onclick="postComment()">POST</button>
+                    <div class="info-card-block">
+                        <img class="info-poster" id="metaPoster" src="" alt="poster">
+                        <div class="info-details">
+                            <h3 id="metaTitle" style="margin:0; font-size:18px; color:white;">Anime Title</h3>
+                            <div class="info-tags">
+                                <span class="tag-pill">Action</span><span class="tag-pill">Drama</span><span class="tag-pill">Mystery</span>
+                            </div>
+                            <p id="metaSynopsis" style="color: var(--text-muted); margin: 10px 0; font-size: 12px;"></p>
+                            <div style="font-size: 12px; color: white; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                                <div>Format: <span style="color:var(--text-muted);" id="metaFormat">TV</span></div>
+                                <div>Year: <span style="color:var(--text-muted);" id="metaYear">2023</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comments-section">
+                        <h3>The Anime Community Comments</h3>
+                        <div class="comment-input-box">
+                            <input type="text" id="commentInput" placeholder="Leave a comment on this episode...">
+                            <button class="btn-purple" style="padding:0 20px;" onclick="postComment()">POST</button>
+                        </div>
+                        <div id="commentsList"></div>
+                    </div>
+                </div>
+
+                <div class="theater-right">
+                    <div class="sidebar-panel">
+                        <div class="panel-title" id="sidebarListHeader">Episodes</div>
+                        <div class="vertical-episodes-list" id="sidebarEpisodesWrapper"></div>
+                    </div>
+
+                    <div class="sidebar-panel">
+                        <div class="panel-title">Seasons</div>
+                        <div class="seasons-row-list" id="sidebarSeasonsWrapper"></div>
+                    </div>
+                </div>
+
             </div>
-            <div id="commentsList"></div>
         </div>
 
     </div>
 
     <script>
         let libraryData = {};
-        let activeAnimeKey = "";
-        let activeEpKey = "";
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        let activeAnime = "";
+        let activeSeason = "";
+        let activeEpNum = "";
 
-        async function initDashboard() {
+        async function initApp() {
             try {
                 const response = await fetch('library.json');
                 libraryData = await response.json();
                 
                 buildRecentGrid();
-                populateAnimeDropdown();
                 
                 const defaultAnime = Object.keys(libraryData)[0];
                 if(defaultAnime && libraryData[defaultAnime]) {
                     document.getElementById('heroTitle').innerText = defaultAnime;
-                    document.getElementById('heroDesc').innerText = libraryData[defaultAnime].description || "No description provided.";
+                    document.getElementById('heroDesc').innerText = libraryData[defaultAnime].description || "";
                     if(libraryData[defaultAnime].poster) {
                         document.getElementById('heroElement').style.backgroundImage = `linear-gradient(180deg, rgba(19,21,26,0.3) 0%, rgba(11,12,15,1) 100%), url('${libraryData[defaultAnime].poster}')`;
                     }
                 }
-            } catch (e) { console.error("Database connection fault:", e); }
-            buildCalendarTabs();
-        }
-
-        function populateAnimeDropdown() {
-            const dropdown = document.getElementById('animeSelect');
-            Object.keys(libraryData).forEach(anime => {
-                let opt = document.createElement('option');
-                opt.value = anime;
-                opt.innerText = anime;
-                dropdown.appendChild(opt);
-            });
+            } catch (e) { console.error("Database connection configuration sync error:", e); }
+            loadStaticScheduleFallback();
         }
 
         function buildRecentGrid() {
@@ -208,158 +254,131 @@
                 const data = libraryData[anime];
                 const card = document.createElement('div');
                 card.className = 'release-card';
-                card.onclick = () => { showPage('library'); document.getElementById('animeSelect').value = anime; updateSeasons(); };
+                card.onclick = () => launchTheaterMode(anime);
                 
                 card.innerHTML = `
                     <div class="poster-box"><img src="${data.poster}" alt="poster"></div>
                     <div class="release-info">
                         <h4>${anime}</h4>
-                        <div class="release-meta"><span>${data.type || 'TV'}</span><span>${data.year || '2026'}</span></div>
+                        <div class="release-meta"><span>${data.type || 'TV'}</span><span>${data.year || '2023'}</span></div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        function updateSeasons() {
-            const anime = document.getElementById('animeSelect').value;
-            const dropdown = document.getElementById('seasonSelect');
-            dropdown.innerHTML = '<option value="">-- Choose Season --</option>';
-            document.getElementById('episodesGrid').innerHTML = '';
+        // Switches into full split-screen viewing dashboard automatically
+        function launchTheaterMode(animeName, targetSeason = null, targetEp = null) {
+            if(!libraryData[animeName]) return;
+            activeAnime = animeName;
+            
+            showPage('watch');
+            
+            // Generate details profile cards
+            const anime = libraryData[animeName];
+            document.getElementById('metaTitle').innerText = animeName;
+            document.getElementById('metaPoster').src = anime.poster;
+            document.getElementById('metaSynopsis').innerText = anime.description || "";
+            document.getElementById('metaFormat').innerText = anime.type || "TV";
+            document.getElementById('metaYear').innerText = anime.year || "2023";
 
-            if(!anime || !libraryData[anime]) { dropdown.disabled = true; return; }
-
-            Object.keys(libraryData[anime].seasons).forEach(season => {
-                let opt = document.createElement('option');
-                opt.value = season;
-                opt.innerText = season;
-                dropdown.appendChild(opt);
-            });
-            dropdown.disabled = false;
+            // Establish active structural tracking indices
+            activeSeason = targetSeason || Object.keys(anime.seasons)[0];
+            
+            buildSeasonSidebarButtons();
+            loadEpisodesListSidebar(targetEp);
         }
 
-        function renderEpisodes() {
-            const anime = document.getElementById('animeSelect').value;
-            const season = document.getElementById('seasonSelect').value;
-            const audio = document.getElementById('audioSelect').value;
-            const grid = document.getElementById('episodesGrid');
-            grid.innerHTML = '';
+        function buildSeasonSidebarButtons() {
+            const wrapper = document.getElementById('sidebarSeasonsWrapper');
+            wrapper.innerHTML = '';
+            Object.keys(libraryData[activeAnime].seasons).forEach(season => {
+                const btn = document.createElement('button');
+                btn.className = `season-btn ${season === activeSeason ? 'active' : ''}`;
+                btn.innerText = season;
+                btn.onclick = () => { activeSeason = season; buildSeasonSidebarButtons(); loadEpisodesListSidebar(); };
+                wrapper.appendChild(btn);
+            });
+        }
 
-            if(!anime || !season) return;
-
-            activeAnimeKey = anime;
-            const eps = libraryData[anime].seasons[season];
+        function loadEpisodesListSidebar(forceSelectEpNum = null) {
+            const wrapper = document.getElementById('sidebarEpisodesWrapper');
+            wrapper.innerHTML = '';
+            
+            document.getElementById('sidebarListHeader').innerText = `Episodes: ${activeSeason}`;
+            const eps = libraryData[activeAnime].seasons[activeSeason];
+            
             Object.keys(eps).forEach(num => {
                 const ep = eps[num];
                 const card = document.createElement('div');
-                card.className = 'ep-card';
-                card.onclick = () => launchStream(ep[audio], num);
+                card.className = 'v-ep-card';
+                card.id = `sidebar-ep-${num}`;
+                card.onclick = () => playVideoSource(num);
                 
                 card.innerHTML = `
-                    <div class="ep-thumb-box">
-                        <img src="${ep.photo || libraryData[anime].poster}" alt="thumb">
-                        <div class="ep-badge">EP ${num}</div>
-                    </div>
-                    <div class="ep-info">
-                        <h4>${ep.title || 'Episode ' + num}</h4>
-                        <p>${ep.airDate || 'Released'}</p>
+                    <img class="v-ep-thumb" src="${ep.photo || libraryData[activeAnime].poster}" alt="thumb">
+                    <div class="v-ep-info">
+                        <h5>EP ${num}: ${ep.title || 'Episode ' + num}</h5>
+                        <p>${ep.airDate || 'Aired Link'}</p>
                     </div>
                 `;
-                grid.appendChild(card);
+                wrapper.appendChild(card);
             });
+
+            // Auto-launch target stream indices
+            const defaultEp = forceSelectEpNum || Object.keys(eps)[0];
+            if(defaultEp) playVideoSource(defaultEp);
         }
 
-        function launchStream(url, epNum) {
-            if(!url) { alert("Video streaming link unassigned inside library.json!"); return; }
-            activeEpKey = epNum;
-            document.getElementById('playerArea').style.display = 'block';
-            document.getElementById('commentsBox').style.display = 'block';
-            
+        function playVideoSource(epNum) {
+            activeEpNum = epNum;
+            const ep = libraryData[activeAnime].seasons[activeSeason][epNum];
+            const track = document.getElementById('audioSelect').value;
+            const url = ep[track];
+
+            // Highlights the item on the side menu list column
+            document.querySelectorAll('.v-ep-card').forEach(c => c.classList.remove('active'));
+            const activeCard = document.getElementById(`sidebar-ep-${epNum}`);
+            if(activeCard) activeCard.classList.add('active');
+
+            // Text adjustments updates
+            document.getElementById('playerStreamTitle').innerText = `${epNum}. ${ep.title || 'Episode ' + epNum}`;
+            document.getElementById('playerEpisodeDesc').innerText = ep.description || 'No summary text available for this timeline segment.';
+
             const player = document.getElementById('mainPlayer');
+            if(!url || url.trim() === "") {
+                player.src = "";
+                alert("The requested audio track route has no streaming link assigned inside library.json!");
+                return;
+            }
+
             player.src = url;
             player.load();
             player.play();
-            
+
             loadComments();
-            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function syncAudioTrackChange() {
+            if(activeAnime && activeSeason && activeEpNum) playVideoSource(activeEpNum);
         }
 
         function quickWatchHero() {
             const firstAnime = Object.keys(libraryData)[0];
-            if(firstAnime && libraryData[firstAnime]) {
-                const firstSeason = Object.keys(libraryData[firstAnime].seasons)[0];
-                if(firstSeason) {
-                    const firstEp = libraryData[firstAnime].seasons[firstSeason]["1"];
-                    if(firstEp) {
-                        activeAnimeKey = firstAnime;
-                        launchStream(firstEp.sub || firstEp.dub, "1");
-                        return;
-                    }
-                }
-            }
-            showPage('library');
-        }
-
-        function buildCalendarTabs() {
-            const row = document.getElementById('calendarTabs');
-            const currentDayIdx = new Date().getDay();
-            days.forEach((day, idx) => {
-                const tab = document.createElement('div');
-                tab.className = `day-tab ${idx === currentDayIdx ? 'active' : ''}`;
-                tab.innerText = day;
-                tab.onclick = () => fetchScheduleData(day.toLowerCase(), tab);
-                row.appendChild(tab);
-            });
-            fetchScheduleData(days[currentDayIdx].toLowerCase());
-        }
-
-        async function fetchScheduleData(dayName, element = null) {
-            if(element) {
-                document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
-                element.classList.add('active');
-            }
-            const list = document.getElementById('scheduleList');
-            list.innerHTML = '<div class="schedule-item">Syncing parameters with MyAnimeList tracks...</div>';
-            try {
-                const res = await fetch(`https://api.jikan.moe/v4/schedules?filter=${dayName}`);
-                const resJson = await res.json();
-                list.innerHTML = '';
-                
-                if(!resJson.data || resJson.data.length === 0) {
-                    throw new Error("Empty data pool");
-                }
-                
-                resJson.data.slice(0, 5).forEach(item => {
-                    const row = document.createElement('div');
-                    row.className = 'schedule-item';
-                    row.innerHTML = `<div><strong>${item.title}</strong></div><div class="schedule-time">${item.broadcast.time || 'Airing'}</div>`;
-                    list.appendChild(row);
-                });
-            } catch(e) { 
-                list.innerHTML = `
-                    <div class="schedule-item"><div><strong>The Apothecary Diaries (Season 2)</strong></div><div class="schedule-time">19:30</div></div>
-                    <div class="schedule-item"><div><strong>Chikawa</strong></div><div class="schedule-time">04:10</div></div>
-                    <div class="schedule-item"><div><strong>Liar Game (New Release)</strong></div><div class="schedule-time">08:30</div></div>
-                `;
-            }
+            if(firstAnime) launchTheaterMode(firstAnime);
         }
 
         function searchLibrary(e) {
             const val = e.target.value.toLowerCase().trim();
             if(!val || e.key !== 'Enter') return;
             const match = Object.keys(libraryData).find(name => name.toLowerCase().includes(val));
-            if(match) {
-                showPage('library');
-                document.getElementById('animeSelect').value = match;
-                updateSeasons();
-                e.target.value = '';
-            }
+            if(match) { launchTheaterMode(match); e.target.value = ''; }
         }
 
         function loadComments() {
             const list = document.getElementById('commentsList');
             list.innerHTML = '';
-            const storageKey = `comments-${activeAnimeKey}-${activeEpKey}`;
+            const storageKey = `comments-${activeAnime}-${activeSeason}-${activeEpNum}`;
             const records = JSON.parse(localStorage.getItem(storageKey)) || [];
             records.forEach(text => {
                 const block = document.createElement('div');
@@ -372,12 +391,20 @@
         function postComment() {
             const input = document.getElementById('commentInput');
             if(!input.value.trim()) return;
-            const storageKey = `comments-${activeAnimeKey}-${activeEpKey}`;
+            const storageKey = `comments-${activeAnime}-${activeSeason}-${activeEpNum}`;
             const records = JSON.parse(localStorage.getItem(storageKey)) || [];
             records.unshift(input.value);
             localStorage.setItem(storageKey, JSON.stringify(records));
             input.value = '';
             loadComments();
+        }
+
+        function loadStaticScheduleFallback() {
+            document.getElementById('scheduleList').innerHTML = `
+                <div class="schedule-item"><div><strong>The Apothecary Diaries (Season 2)</strong></div><div class="schedule-time">19:30</div></div>
+                <div class="schedule-item"><div><strong>Chikawa</strong></div><div class="schedule-time">04:10</div></div>
+                <div class="schedule-item"><div><strong>Liar Game (New Series)</strong></div><div class="schedule-time">08:30</div></div>
+            `;
         }
 
         function showPage(id) {
@@ -387,7 +414,7 @@
             document.getElementById(`tab-${id}`).classList.add('active');
         }
 
-        window.onload = initDashboard;
+        window.onload = initApp;
     </script>
 </body>
 </html>
