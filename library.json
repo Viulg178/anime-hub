@@ -3,7 +3,7 @@
     "poster": "https://cdn.myanimelist.net/images/anime/1708/138033.jpg",
     "type": "TV",
     "year": "2023",
-    "description": "Maomao lived a peaceful life with her apothecary father. Until one day, she's sold into service...",
+    "description": "Maomao lived a peaceful life with her apothecary father until she is kidnapped and sold into service at the Emperor's palace. Using her sharp wit and medical knowledge, she quickly begins solving mysteries inside the inner court.",
     "seasons": {
       "Season 1": {
         "1": {
@@ -12,6 +12,13 @@
           "photo": "https://cdn.myanimelist.net/images/anime/1708/138033.jpg",
           "sub": "https://telegram-file-link-bot-production-3194.up.railway.app/file/3be18ed85fa1",
           "dub": ""
+        },
+        "2": {
+          "title": "The Chilly Apothecary",
+          "airDate": "Oct 29, 2023",
+          "photo": "https://cdn.myanimelist.net/images/anime/1708/138033.jpg",
+          "sub": "PASTE_YOUR_RAILWAY_SUB_LINK_FOR_EP2_HERE",
+          "dub": "PASTE_YOUR_RAILWAY_DUB_LINK_FOR_EP2_HERE"
         }
       }
     }
