@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIRURO.tv - Ultimate Private Stream</title>
+    <title>MIRURO.tv - Private Stream</title>
     <style>
         :root {
             --bg-main: #0b0c0f;
@@ -16,7 +16,7 @@
         body {
             background-color: var(--bg-main);
             color: var(--text-main);
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -33,34 +33,66 @@
         .nav-links { display: flex; gap: 20px; }
         .nav-item { cursor: pointer; font-weight: 600; color: var(--text-muted); }
         .nav-item.active { color: var(--accent); }
-        .video-wrapper { background: #000; width: 100%; max-width: 1000px; margin: 0 auto; display: none; }
+        
+        .video-wrapper { background: #000; width: 100%; max-width: 1060px; margin: 0 auto; display: none; }
         video { width: 100%; aspect-ratio: 16/9; display: block; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        
+        .container { max-width: 1060px; margin: 0 auto; padding: 20px; }
         .page { display: none; }
         .page.active { display: block; }
-        .selectors { display: flex; gap: 15px; margin-bottom: 20px; }
+        
+        .selectors { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
         select {
             background: var(--bg-card);
             border: 1px solid var(--bg-border);
             color: white;
-            padding: 10px;
+            padding: 10px 15px;
             border-radius: 6px;
             font-size: 14px;
             outline: none;
             cursor: pointer;
         }
-        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; }
+        
+        /* Premium Miruro Episode Cards Style Layout */
+        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
         .ep-card {
             background: var(--bg-card);
             border: 1px solid var(--bg-border);
             border-radius: 8px;
-            padding: 15px;
+            padding: 8px;
+            display: flex;
+            gap: 12px;
             cursor: pointer;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
         }
-        .ep-card:hover { border-color: var(--accent); }
-        .ep-card h4 { margin: 0 0 5px 0; color: white; }
-        .ep-card p { margin: 0; font-size: 12px; color: var(--text-muted); }
+        .ep-card:hover { border-color: var(--accent); background: #1a1d24; }
+        
+        .ep-thumb-box {
+            width: 110px;
+            height: 65px;
+            background: #1f232b;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .ep-thumb-box img { width: 100%; height: 100%; object-fit: cover; }
+        .ep-badge {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            background: rgba(0,0,0,0.8);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 9px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .ep-info { display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        .ep-info h4 { margin: 0 0 4px 0; font-size: 13px; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ep-info p { margin: 0; font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
         .schedule-row {
             background: var(--bg-card);
             border: 1px solid var(--bg-border);
@@ -81,7 +113,7 @@
             <div class="nav-item active" id="tab-home" onclick="showPage('home')">Home</div>
             <div class="nav-item" id="tab-library" onclick="showPage('library')">My Anime</div>
         </div>
-        <div style="font-size: 13px; color: var(--accent);">● ONLINE</div>
+        <div style="font-size: 13px; color: var(--accent); font-weight: bold;">● ONLINE NODE</div>
     </nav>
 
     <div class="video-wrapper" id="playerArea">
@@ -90,21 +122,21 @@
 
     <div class="container">
         
-        <!-- HOME PAGE (SCHEDULE) -->
+        <!-- HOME PAGE -->
         <div class="page active" id="page-home">
-            <h2 style="border-left: 4px solid var(--accent); padding-left: 10px;">Airing Schedule (Today)</h2>
-            <div id="scheduleContainer">Loading streaming logs...</div>
+            <h2 style="border-left: 4px solid var(--accent); padding-left: 10px; font-size: 18px;">Estimated Airing Schedule</h2>
+            <div id="scheduleContainer">Loading schedule items...</div>
         </div>
 
         <!-- LIBRARY PAGE -->
         <div class="page" id="page-library">
-            <h2 style="border-left: 4px solid var(--accent); padding-left: 10px; margin-bottom: 20px;">My Streaming Library</h2>
+            <h2 style="border-left: 4px solid var(--accent); padding-left: 10px; font-size: 18px; margin-bottom: 20px;">My Anime Library</h2>
             <div class="selectors">
-                <select id="animeSelect" onchange="updateSeasonsDropdown()"><option value="">-- Select Anime --</option></select>
-                <select id="seasonSelect" onchange="renderEpisodesGrid()" disabled><option value="">-- Select Season --</option></select>
+                <select id="animeSelect" onchange="updateSeasonsDropdown()"><option value="">-- Choose Anime --</option></select>
+                <select id="seasonSelect" onchange="renderEpisodesGrid()" disabled><option value="">-- Choose Season --</option></select>
                 <select id="audioSelect" onchange="renderEpisodesGrid()">
-                    <option value="sub">Subbed (JPN)</option>
-                    <option value="dub">Dubbed (ENG)</option>
+                    <option value="sub">Audio Track: Subbed (JPN)</option>
+                    <option value="dub">Audio Track: Dubbed (ENG)</option>
                 </select>
             </div>
             <div class="episodes-grid" id="episodesGrid"></div>
@@ -115,7 +147,6 @@
     <script>
         let libraryData = {};
 
-        // 1. Fetch library.json configurations automatically on page load
         async function loadPortalData() {
             try {
                 const response = await fetch('library.json');
@@ -128,14 +159,14 @@
                     opt.innerText = anime;
                     animeDropdown.appendChild(opt);
                 });
-            } catch (e) { console.error("Error connecting to library database file", e); }
+            } catch (e) { console.error("Error accessing library.json profile", e); }
             loadAiringSchedule();
         }
 
         function updateSeasonsDropdown() {
             const anime = document.getElementById('animeSelect').value;
             const seasonDropdown = document.getElementById('seasonSelect');
-            seasonDropdown.innerHTML = '<option value="">-- Select Season --</option>';
+            seasonDropdown.innerHTML = '<option value="">-- Choose Season --</option>';
             document.getElementById('episodesGrid').innerHTML = '';
 
             if (!anime || !libraryData[anime]) {
@@ -164,22 +195,32 @@
             const episodes = libraryData[anime][season];
             Object.keys(episodes).forEach(num => {
                 const ep = episodes[num];
+                
+                // Fallback image poster if user leaves photo url blank in library.json
+                const imageSrc = ep.photo || "https://cdn.myanimelist.net/images/anime/1708/138033.jpg";
+                const airDate = ep.airDate || "Active Link Route";
+
                 const card = document.createElement('div');
                 card.className = 'ep-card';
-                card.onclick = () => playStream(ep[audio], `${anime} - S${season} Ep ${num}: ${ep.title}`);
+                card.onclick = () => playStream(ep[audio], `${anime} - S${season} Ep ${num}`);
                 
                 card.innerHTML = `
-                    <h4>Episode ${num}</h4>
-                    <p>${ep.title || 'No Title Available'}</p>
-                    <p style="color:var(--accent); font-size:11px; margin-top:5px;">Click to Stream</p>
+                    <div class="ep-thumb-box">
+                        <img src="${imageSrc}" alt="thumbnail">
+                        <div class="ep-badge">EP ${num}</div>
+                    </div>
+                    <div class="ep-info">
+                        <h4>${ep.title || 'Episode ' + num}</h4>
+                        <p>${airDate}</p>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
         function playStream(url, displayTitle) {
-            if (!url) {
-                alert("This episode/language track doesn't have a video link added yet!");
+            if (!url || url.trim() === "") {
+                alert("This option language track link is currently unassigned inside library.json!");
                 return;
             }
             document.getElementById('playerArea').style.display = 'block';
@@ -202,10 +243,10 @@
                 data.data.slice(0, 6).forEach(item => {
                     let row = document.createElement('div');
                     row.className = 'schedule-row';
-                    row.innerHTML = `<div><strong>${item.title}</strong></div><div class="time">${item.broadcast.time || 'Airing Now'}</div>`;
+                    row.innerHTML = `<div><strong>${item.title}</strong></div><div class="time">${item.broadcast.time || 'Airing'}</div>`;
                     container.appendChild(row);
                 });
-            } catch(e) { container.innerHTML = '<div class="schedule-row">Schedule engine ready. Connect your library tracks.</div>'; }
+            } catch(e) { container.innerHTML = '<div class="schedule-row">System online. Complete data routes.</div>'; }
         }
 
         function showPage(pageId) {
