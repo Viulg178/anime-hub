@@ -54,7 +54,6 @@
         .page { display: none; }
         .page.active { display: block; }
 
-        /* Banner Design Fixed */
         .hero-banner {
             background: linear-gradient(180deg, rgba(19,21,26,0.4) 0%, rgba(11,12,15,1) 100%), #13151a;
             background-size: cover;
@@ -84,7 +83,6 @@
         .release-info h4 { margin: 0 0 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; }
         .release-meta { font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between; }
 
-        /* Calendar Fixed */
         .calendar-row { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
         .day-tab { background: var(--bg-card); border: 1px solid var(--bg-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-muted); white-space: nowrap; }
         .day-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
@@ -181,7 +179,6 @@
                 buildRecentGrid();
                 populateAnimeDropdown();
                 
-                // Fixed: Dynamically set the big hero backdrop image using the poster URL from library.json
                 const defaultAnime = Object.keys(libraryData)[0];
                 if(defaultAnime && libraryData[defaultAnime]) {
                     document.getElementById('heroTitle').innerText = defaultAnime;
@@ -190,7 +187,7 @@
                         document.getElementById('heroElement').style.backgroundImage = `linear-gradient(180deg, rgba(19,21,26,0.3) 0%, rgba(11,12,15,1) 100%), url('${libraryData[defaultAnime].poster}')`;
                     }
                 }
-            } catch (e) { console.error("Database initialization link issue:", e); }
+            } catch (e) { console.error("Database connection fault:", e); }
             buildCalendarTabs();
         }
 
@@ -287,7 +284,6 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // Fixed: Instantly plays Episode 1 from your library json file immediately
         function quickWatchHero() {
             const firstAnime = Object.keys(libraryData)[0];
             if(firstAnime && libraryData[firstAnime]) {
@@ -301,7 +297,6 @@
                     }
                 }
             }
-            // Fallback strategy if database is not fully loaded yet
             showPage('library');
         }
 
@@ -318,21 +313,20 @@
             fetchScheduleData(days[currentDayIdx].toLowerCase());
         }
 
-        // Fixed: Airing schedule fallback system handles server API limitations gracefully
         async function fetchScheduleData(dayName, element = null) {
             if(element) {
                 document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
                 element.classList.add('active');
             }
             const list = document.getElementById('scheduleList');
-            list.innerHTML = '<div class="schedule-item">Syncing layout parameters with MyAnimeList tracks...</div>';
+            list.innerHTML = '<div class="schedule-item">Syncing parameters with MyAnimeList tracks...</div>';
             try {
                 const res = await fetch(`https://api.jikan.moe/v4/schedules?filter=${dayName}`);
                 const resJson = await res.json();
                 list.innerHTML = '';
                 
                 if(!resJson.data || resJson.data.length === 0) {
-                    throw new Error("Empty data");
+                    throw new Error("Empty data pool");
                 }
                 
                 resJson.data.slice(0, 5).forEach(item => {
@@ -342,11 +336,10 @@
                     list.appendChild(row);
                 });
             } catch(e) { 
-                // Hardcoded fallback data prevents an empty panel if the API is restricted or down
                 list.innerHTML = `
                     <div class="schedule-item"><div><strong>The Apothecary Diaries (Season 2)</strong></div><div class="schedule-time">19:30</div></div>
                     <div class="schedule-item"><div><strong>Chikawa</strong></div><div class="schedule-time">04:10</div></div>
-                    <div class="schedule-item"><div><strong>Liar Game (New Series)</strong></div><div class="schedule-time">08:30</div></div>
+                    <div class="schedule-item"><div><strong>Liar Game (New Release)</strong></div><div class="schedule-time">08:30</div></div>
                 `;
             }
         }
