@@ -73,7 +73,7 @@
 
         .section-header { font-size: 18px; font-weight: bold; margin: 25px 0 15px 0; border-bottom: 1px solid var(--bg-border); padding-bottom: 8px; }
 
-        /* Home Content Grids Grid Layouts */
+        /* Home Content Grids Layouts */
         .releases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 15px; }
         .release-card { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
         .release-card:hover { transform: translateY(-4px); border-color: var(--accent); }
@@ -87,7 +87,7 @@
         .schedule-item { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 6px; padding: 12px 20px; display: flex; justify-content: space-between; font-size: 14px; }
         .schedule-time { color: var(--accent); font-weight: bold; font-family: monospace; }
 
-        /* ================= Premium split-screen View layout (Photos 2 & 3) ================= */
+        /* Premium split-screen View layout */
         .theater-layout { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
         .theater-left { flex: 1; min-width: 60%; }
         .theater-right { width: 360px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
@@ -119,7 +119,7 @@
         .season-btn { background: var(--bg-main); border: 1px solid var(--bg-border); color: var(--text-muted); padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
         .season-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        /* Info Block components matching photo 3 */
+        /* Info Block components */
         .info-card-block { background: var(--bg-card); border: 1px solid var(--bg-border); border-radius: 8px; padding: 20px; margin-top: 20px; display: flex; gap: 20px; }
         .info-poster { width: 140px; height: 200px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--bg-border); }
         .info-details { font-size: 13px; line-height: 1.5; }
@@ -146,6 +146,7 @@
 
     <div class="container">
         
+        <!-- PAGE VIEW: HOME MODULE -->
         <div class="page active" id="page-home">
             <div class="hero-banner" id="heroElement">
                 <h1 class="hero-title" id="heroTitle">Loading...</h1>
@@ -160,9 +161,11 @@
             <div class="schedule-list" id="scheduleList"></div>
         </div>
 
+        <!-- PREMIUM THEATER WATCH SCREEN -->
         <div class="page" id="page-watch">
             <div class="theater-layout">
                 
+                <!-- Left Section Column: Player & Info -->
                 <div class="theater-left">
                     <div class="video-box">
                         <video id="mainPlayer" controls></video>
@@ -180,8 +183,9 @@
                         </div>
                     </div>
 
+                    <!-- Media Series Detail Card Module -->
                     <div class="info-card-block">
-                        <img class="info-poster" id="metaPoster" src="" alt="poster">
+                        <img class="info-poster" id="metaPoster" src="" referrerpolicy="no-referrer" alt="poster">
                         <div class="info-details">
                             <h3 id="metaTitle" style="margin:0; font-size:18px; color:white;">Anime Title</h3>
                             <div class="info-tags">
@@ -195,6 +199,7 @@
                         </div>
                     </div>
 
+                    <!-- Local Storage Comments Box Engine -->
                     <div class="comments-section">
                         <h3>The Anime Community Comments</h3>
                         <div class="comment-input-box">
@@ -205,12 +210,15 @@
                     </div>
                 </div>
 
+                <!-- Right Section Column: Sidebar Navigation -->
                 <div class="theater-right">
+                    <!-- Vertical Episode List -->
                     <div class="sidebar-panel">
                         <div class="panel-title" id="sidebarListHeader">Episodes</div>
                         <div class="vertical-episodes-list" id="sidebarEpisodesWrapper"></div>
                     </div>
 
+                    <!-- Season Switch List -->
                     <div class="sidebar-panel">
                         <div class="panel-title">Seasons</div>
                         <div class="seasons-row-list" id="sidebarSeasonsWrapper"></div>
@@ -257,7 +265,7 @@
                 card.onclick = () => launchTheaterMode(anime);
                 
                 card.innerHTML = `
-                    <div class="poster-box"><img src="${data.poster}" alt="poster"></div>
+                    <div class="poster-box"><img src="${data.poster}" referrerpolicy="no-referrer" alt="poster"></div>
                     <div class="release-info">
                         <h4>${anime}</h4>
                         <div class="release-meta"><span>${data.type || 'TV'}</span><span>${data.year || '2023'}</span></div>
@@ -316,7 +324,7 @@
                 card.onclick = () => playVideoSource(num);
                 
                 card.innerHTML = `
-                    <img class="v-ep-thumb" src="${ep.photo || libraryData[activeAnime].poster}" alt="thumb">
+                    <img class="v-ep-thumb" src="${ep.photo || libraryData[activeAnime].poster}" referrerpolicy="no-referrer" alt="thumb">
                     <div class="v-ep-info">
                         <h5>EP ${num}: ${ep.title || 'Episode ' + num}</h5>
                         <p>${ep.airDate || 'Aired Link'}</p>
@@ -372,49 +380,4 @@
             const val = e.target.value.toLowerCase().trim();
             if(!val || e.key !== 'Enter') return;
             const match = Object.keys(libraryData).find(name => name.toLowerCase().includes(val));
-            if(match) { launchTheaterMode(match); e.target.value = ''; }
-        }
-
-        function loadComments() {
-            const list = document.getElementById('commentsList');
-            list.innerHTML = '';
-            const storageKey = `comments-${activeAnime}-${activeSeason}-${activeEpNum}`;
-            const records = JSON.parse(localStorage.getItem(storageKey)) || [];
-            records.forEach(text => {
-                const block = document.createElement('div');
-                block.className = 'comment-item';
-                block.innerHTML = `<div class="comment-avatar">U</div><div><h5>Anonymous Viewer</h5><p>${text}</p></div>`;
-                list.appendChild(block);
-            });
-        }
-
-        function postComment() {
-            const input = document.getElementById('commentInput');
-            if(!input.value.trim()) return;
-            const storageKey = `comments-${activeAnime}-${activeSeason}-${activeEpNum}`;
-            const records = JSON.parse(localStorage.getItem(storageKey)) || [];
-            records.unshift(input.value);
-            localStorage.setItem(storageKey, JSON.stringify(records));
-            input.value = '';
-            loadComments();
-        }
-
-        function loadStaticScheduleFallback() {
-            document.getElementById('scheduleList').innerHTML = `
-                <div class="schedule-item"><div><strong>The Apothecary Diaries (Season 2)</strong></div><div class="schedule-time">19:30</div></div>
-                <div class="schedule-item"><div><strong>Chikawa</strong></div><div class="schedule-time">04:10</div></div>
-                <div class="schedule-item"><div><strong>Liar Game (New Series)</strong></div><div class="schedule-time">08:30</div></div>
-            `;
-        }
-
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
-            document.getElementById(`page-${id}`).classList.add('active');
-            document.getElementById(`tab-${id}`).classList.add('active');
-        }
-
-        window.onload = initApp;
-    </script>
-</body>
-</html>
+            if(ma
